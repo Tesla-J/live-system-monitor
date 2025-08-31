@@ -1,23 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import MemoryChart from './Memory';
+import CPUChart from "./CPU";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-function Button(){
-    return (
-        <button>Hello, World!</button>
-    );
-}
-
 root.render(
-  <React.StrictMode>
-    <App />
-      <Button/>
+  <React.StrictMode >
+      <div style={{display: 'flex'}}>
+          <CPUChart/>
+          <MemoryChart/>
+      </div>
   </React.StrictMode>
 );
 
