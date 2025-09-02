@@ -9,6 +9,9 @@ class CPUChart extends Component {
 
         this.state = {
             options: {
+                dataLabels : {
+                    enabled: false,
+                },
                 chart: {
                     id: "cpu-chart"
                 },
@@ -28,7 +31,7 @@ class CPUChart extends Component {
                     max: 100
                 },
                 stroke: {
-                    curve: 'smooth'
+                    curve: 'straight'
                 },
             },
             series: [
@@ -36,12 +39,12 @@ class CPUChart extends Component {
                     name: "CPU 1",
                     data: Array.from({length:61}, (_, l) => 0)//Math.round(Math.random() * 100))//[30, 40, 45, 50, 49, 60, 70, 91, 33, 12, 34, 55, 67, 88, 9, 5]
                 },
-                // TODO pode apagar isso abaixo se nao for o objectivo controlar mais de um nucleo
+                /* TODO pode apagar isso abaixo se nao for o objectivo controlar mais de um nucleo
                 {
                     name: `CPU 2`,
                     data: Array.from({length:61}, (_, l) => Math.round(Math.random() * 10))
-                }
-            ]
+                }*/
+            ],
         };
         // Websocket Approach
         this.websocket = new WebSocket('ws://localhost:6789');
@@ -68,7 +71,7 @@ class CPUChart extends Component {
                             options={this.state.options}
                             // @ts-ignore
                             series={this.state.series}
-                            type="line"
+                            type="area"
                             width="600"
                         />
                     </div>

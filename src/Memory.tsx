@@ -9,6 +9,9 @@ class MemoryChart extends Component {
 
         this.state = {
             options: {
+                dataLabels : {
+                    enabled: false,
+                },
                 chart: {
                     id: "mem-chart"
                 },
@@ -38,9 +41,6 @@ class MemoryChart extends Component {
                     data: Array.from({length:61}, (_, l) => 50)//Math.round(Math.random() * 100))//[30, 40, 45, 50, 49, 60, 70, 91, 33, 12, 34, 55, 67, 88, 9, 5]
                 },
             ],
-            legend: {
-                show: true,
-            }
         };
         // Websocket Approach
         this.websocket = new WebSocket('ws://localhost:6789');
@@ -67,7 +67,7 @@ class MemoryChart extends Component {
                             options={this.state.options}
                             // @ts-ignore
                             series={this.state.series}
-                            type="line"
+                            type="area"
                             width="600"
                         />
                     </div>
