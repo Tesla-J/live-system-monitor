@@ -13,11 +13,14 @@ class MemoryChart extends Component {
                     enabled: false,
                 },
                 chart: {
-                    id: "mem-chart"
+                    id: "mem-chart",
                 },
                 yaxis: {
                     min: 0,
-                    max: 100
+                    max: 100,
+                    title: {
+                        text: 'Usage',
+                    },
                 },
                 xaxis: {
                     categories: Array.from({length: 61}, (_, l) => l),
@@ -32,13 +35,13 @@ class MemoryChart extends Component {
                 },
                 stroke: {
                     curve: 'smooth',
-                    colors: ['#ff4488'],
+                    //colors: ['#ff4488'],
                 },
             },
             series: [
                 {
                     name: "RAM",
-                    data: Array.from({length:61}, (_, l) => 50)//Math.round(Math.random() * 100))//[30, 40, 45, 50, 49, 60, 70, 91, 33, 12, 34, 55, 67, 88, 9, 5]
+                    data: Array.from({length:61}, (_, l) => 0)//Math.round(Math.random() * 100))//[30, 40, 45, 50, 49, 60, 70, 91, 33, 12, 34, 55, 67, 88, 9, 5]
                 },
             ],
         };
@@ -78,7 +81,7 @@ class MemoryChart extends Component {
 
     private onUpdate = (event: any) => {
         const data = JSON.parse(event.data);
-        this.updateMemory([data[2]]);
+        this.updateMemory([data[1]]);
         console.log('Received data:', data);
     }
 

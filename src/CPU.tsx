@@ -28,7 +28,10 @@ class CPUChart extends Component {
                 },
                 yaxis: {
                     min: 0,
-                    max: 100
+                    max: 100,
+                    title: {
+                        text: 'Usage',
+                    },
                 },
                 stroke: {
                     curve: 'straight'
@@ -82,7 +85,7 @@ class CPUChart extends Component {
 
     private onUpdate = (event: any) => {
         const data = JSON.parse(event.data);
-        this.updateCPU([data[0], data[1]]);
+        this.updateCPU([data[0]]);
         console.log('Received data:', data);
     }
 

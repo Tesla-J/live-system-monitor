@@ -2,6 +2,7 @@ import asyncio
 import websockets
 import random
 import json
+import psutil
 
 connected_clients = set()  # Set to keep track of connected clients
 
@@ -13,8 +14,8 @@ async def send_numbers(websocket):
     connected_clients.add(websocket)
     try:
         while True:
-            # Generate an array of three random numbers between 20 and 80
-            numbers = [random.randint(20, 80) for _ in range(3)]
+            # Generate an array of CPU and RAM use TODO study more later
+            numbers = [int(psutil.cpu_percent(interval=1)), int(psutil.virtual_memory().percent)]
             message = json.dumps(numbers)
             await broadcast(message)
             await asyncio.sleep(1)
