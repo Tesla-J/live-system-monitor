@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Chart from "react-apexcharts";
 
 class CPUChart extends Component {
-    private intervalId;
+    private websocket;
     // @ts-ignore
     constructor(props) {
         super(props);
@@ -43,7 +43,18 @@ class CPUChart extends Component {
                 }
             ]
         };
-        this.intervalId = setInterval(this.onUpdate, 1000);
+        // Websocket Approach
+        this.websocket = new WebSocket('ws://localhost:6789');
+        this.websocket.onopen = function() {
+            console.log('Connected to the server');
+        };
+        this.websocket.onmessage = this.onUpdate
+        this.websocket.onclose = function() {
+            console.log('Disconnected from the server');
+        };
+        this.websocket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
     }
 
     render() {
@@ -66,8 +77,10 @@ class CPUChart extends Component {
         );
     }
 
-    private onUpdate = () => {
-        this.updateCPU([Math.round(Math.random() * 40 + 20),Math.round(Math.random() * 50 + 30)]);
+    private onUpdate = (event: any) => {
+        const data = JSON.parse(event.data);
+        this.updateCPU([data[0], data[1]]);
+        console.log('Received data:', data);
     }
 
     public updateCPU(value: Array<number>) {

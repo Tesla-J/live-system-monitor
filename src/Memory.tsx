@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Chart from "react-apexcharts";
 
 class MemoryChart extends Component {
-    private intervalId;
+    private websocket;
     // @ts-ignore
     constructor(props) {
         super(props);
@@ -42,7 +42,18 @@ class MemoryChart extends Component {
                 show: true,
             }
         };
-        this.intervalId = setInterval(this.onUpdate, 1000);
+        // Websocket Approach
+        this.websocket = new WebSocket('ws://localhost:6789');
+        this.websocket.onopen = function() {
+            console.log('Connected to the server');
+        };
+        this.websocket.onmessage = this.onUpdate
+        this.websocket.onclose = function() {
+            console.log('Disconnected from the server');
+        };
+        this.websocket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
     }
 
     render() {
@@ -65,8 +76,10 @@ class MemoryChart extends Component {
         );
     }
 
-    private onUpdate = () => {
-        this.updateMemory([Math.round(Math.random() * 20 + 50)])
+    private onUpdate = (event: any) => {
+        const data = JSON.parse(event.data);
+        this.updateMemory([data[2]]);
+        console.log('Received data:', data);
     }
 
     public updateMemory(value: Array<number>) {
